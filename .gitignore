@@ -164,3 +164,10 @@ logs/
 *.zip
 __pycache__/
 *.egg-info/
+
+logs/
+*.zip
+*.h5
+__pycache__/
+*.pyc
+*.egg-info/

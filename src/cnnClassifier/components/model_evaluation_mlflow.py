@@ -1,3 +1,5 @@
+from importlib.resources import path
+
 import tensorflow as tf
 from pathlib import Path
 import mlflow
@@ -33,29 +35,47 @@ class Evaluation:
             **dataflow_kwargs
         )
 
+    # @staticmethod
+    # def load_model(path: Path) -> tf.keras.Model:
+    #     return tf.keras.models.load_model(path)
+
+    # def evaluation(self):
+    #     self.model = self.load_model(self.config.path_of_model)
+    #     self._valid_generator()
+    #     self.score = self.model.evaluate(self.valid_generator)
+    #     self.save_score()
+
+    # def save_score(self):
+    #     scores = {"loss": self.score[0], "accuracy": self.score[1]}
+    #     save_json(path=Path("scores.json"), data=scores)
+
+    # def log_into_mlflow(self):
+    #     mlflow.set_tracking_uri(self.config.mlflow_uri)
+
+    #     with mlflow.start_run():
+    #         mlflow.log_params(self.config.all_params)
+    #         mlflow.log_metrics(
+    #             {"loss": self.score[0], "accuracy": self.score[1]}
+    #         )
+    #         mlflow.keras.log_model(self.model, "model")
+
+
     @staticmethod
     def load_model(path: Path) -> tf.keras.Model:
-        return tf.keras.models.load_model(path)
+        return tf.keras.models.load_model(path, compile=False)
 
     def evaluation(self):
         self.model = self.load_model(self.config.path_of_model)
+        self.model.compile(
+            optimizer="adam",
+            loss="categorical_crossentropy",
+            metrics=["accuracy"]
+        )
         self._valid_generator()
         self.score = self.model.evaluate(self.valid_generator)
-        self.save_score()
+        self.save_score()    
 
-    def save_score(self):
-        scores = {"loss": self.score[0], "accuracy": self.score[1]}
-        save_json(path=Path("scores.json"), data=scores)
 
-    def log_into_mlflow(self):
-        mlflow.set_tracking_uri(self.config.mlflow_uri)
-
-        with mlflow.start_run():
-            mlflow.log_params(self.config.all_params)
-            mlflow.log_metrics(
-                {"loss": self.score[0], "accuracy": self.score[1]}
-            )
-            mlflow.keras.log_model(self.model, "model")
 
 # import tensorflow as tf
 # from pathlib import Path

@@ -12,13 +12,18 @@ class Training:
         self.config = config
 
     
+    # def get_base_model(self):
+    #     self.model = tf.keras.models.load_model(
+    #         self.config.updated_base_model_path
+    #     )
+
     def get_base_model(self):
         self.model = tf.keras.models.load_model(
-            self.config.updated_base_model_path
+            self.config.updated_base_model_path,
+            compile=False
         )
 
     def train_valid_generator(self):
-
         datagenerator_kwargs = dict(
             rescale = 1./255,
             validation_split=0.20
@@ -69,9 +74,31 @@ class Training:
 
 
     
+    # def train(self):
+    #     self.steps_per_epoch = self.train_generator.samples // self.train_generator.batch_size
+    #     self.validation_steps = self.valid_generator.samples // self.valid_generator.batch_size
+
+    #     self.model.fit(
+    #         self.train_generator,
+    #         epochs=self.config.params_epochs,
+    #         steps_per_epoch=self.steps_per_epoch,
+    #         validation_steps=self.validation_steps,
+    #         validation_data=self.valid_generator
+    #     )
+
+    #     self.save_model(
+    #         path=self.config.trained_model_path,
+    #         model=self.model
+    #     )
     def train(self):
         self.steps_per_epoch = self.train_generator.samples // self.train_generator.batch_size
         self.validation_steps = self.valid_generator.samples // self.valid_generator.batch_size
+
+        self.model.compile(
+            optimizer=tf.keras.optimizers.Adam(learning_rate=self.config.params_learning_rate),
+            loss="categorical_crossentropy",
+            metrics=["accuracy"]
+        )
 
         self.model.fit(
             self.train_generator,
@@ -81,8 +108,4 @@ class Training:
             validation_data=self.valid_generator
         )
 
-        self.save_model(
-            path=self.config.trained_model_path,
-            model=self.model
-        )
-
+        self.save_model(path=self.config.trained_model_path, model=self.model)

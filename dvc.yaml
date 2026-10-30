@@ -33,6 +33,7 @@ stages:
       - EPOCHS
       - BATCH_SIZE
       - AUGMENTATION
+      - LEARNING_RATE
     outs:
       - artifacts/training/model.h5
 

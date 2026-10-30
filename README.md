@@ -51,4 +51,28 @@ open up you local host and port
 ```
 
 
+## MLflow
+## Documentation
+## MLflow tutorial
 
+cmd
+mlflow ui
+dagshub
+dagshub
+
+
+## Ananconda prompt:
+MLFLOW_TRACKING_URI=https://dagshub.com/akipadaya-boop/Kidney-Disease-Classification-DL-Project.mlflow
+MLFLOW_TRACKING_USERNAME=akipadaya-boop
+MLFLOW_TRACKING_PASSWORD=9a064bdcbef5496563b2b632c03828952ffcdeaf
+python script.py
+
+Run this to export as env variables:
+
+
+set MLFLOW_TRACKING_URI=https://dagshub.com/akipadaya-boop/Kidney-Disease-Classification-DL-Project.mlflow
+
+
+set MLFLOW_TRACKING_USERNAME=akipadaya-boop 
+
+set MLFLOW_TRACKING_PASSWORD=9a064bdcbef5496563b2b632c03828952ffcdeaf

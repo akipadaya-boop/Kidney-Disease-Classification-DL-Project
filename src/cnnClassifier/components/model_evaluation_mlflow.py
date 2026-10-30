@@ -75,7 +75,9 @@ class Evaluation:
         self.score = self.model.evaluate(self.valid_generator)
         self.save_score()    
 
-
+    def save_score(self):
+        scores = {"loss": self.score[0], "accuracy": self.score[1]}
+        save_json(path=Path("scores.json"), data=scores)
 
 # import tensorflow as tf
 # from pathlib import Path
